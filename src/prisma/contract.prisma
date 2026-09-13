@@ -11,17 +11,7 @@ model User {
   accessToken String?
   refreshToken String?
   expiresAt   DateTime?
-  posts     Post[]
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
-}
