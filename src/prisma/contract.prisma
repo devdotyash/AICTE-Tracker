@@ -1,17 +1,101 @@
 // use prisma-next
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  emailVerified DateTime?
-  image     String?
-  username  String?
-  name      String?
-  googleId  String?  @unique
-  accessToken String?
-  refreshToken String?
-  expiresAt   DateTime?
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+  id             Int      @id @default(autoincrement())
+  email          String   @unique
+  emailVerified  DateTime?
+  image          String?
+  username       String?
+  name           String?
+  googleId       String?  @unique
+  accessToken    String?
+  refreshToken   String?
+  expiresAt      DateTime?
+  createdAt      TimestamptzString @default(now())
+  updatedAt      temporal.updatedAtString()
+
+  // User application data
+  firstName      String?
+  lastName       String?
+  gsuiteId       String?  @unique
+  branch         String?
+  div            String?
+  rollNo         String?
+  admissionYear  Int?
+  graduationYear Int?
+  tndUid         String?  @unique
+  isExternal     Boolean  @default(false)
+  isHost         Boolean  @default(false)
+
+  // Application relationships
+  hostedEvents   Event[]  @relation("EventHost")
+  tickets        Ticket[]
+  vaults         Vault[]
 }
 
+
+model Event {
+  eventId          Int       @id @default(autoincrement())
+  eventName        String
+  eventDescription String?
+  aicteHr          Int?
+  date             DateTime?
+  time             String?
+  venue            String?
+  hostId           Int?
+  banner           String?
+  brochure         String?
+
+  // Event host
+  host             User?     @relation("EventHost", fields: [hostId], references: [id])
+
+  // Event participants / tickets
+  tickets          Ticket[]
+
+  // Vault records associated with this event
+  vaults           Vault[]
+
+  @@index([hostId])
+}
+
+
+model Ticket {
+  ticketId   Int      @id @default(autoincrement())
+
+  eventId    Int
+  userId     Int?
+
+  tnpUid     String?
+  date       DateTime?
+  time       String?
+  venue      String?
+  eventName  String?
+  host       String?
+  ticketType String?
+
+  // Ticket belongs to a user
+  user        User?   @relation(fields: [userId], references: [id])
+
+  // Ticket belongs to an event
+  event       Event   @relation(fields: [eventId], references: [eventId])
+
+  @@index([userId])
+  @@index([eventId])
+}
+
+
+model Vault {
+  uniqueId   Int      @id @default(autoincrement())
+
+  eventId    Int
+  userId     Int?
+
+  // Vault record belongs to a user
+  user        User?   @relation(fields: [userId], references: [id])
+
+  // Vault record is associated with an event
+  event       Event   @relation(fields: [eventId], references: [eventId])
+
+  @@index([userId])
+  @@index([eventId])
+}
