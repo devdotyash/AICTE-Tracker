@@ -27,8 +27,10 @@ model User {
   isExternal     Boolean  @default(false)
   isHost         Boolean  @default(false)
 
-  // Application relationships
-  hostedEvents   Event[]  @relation("EventHost")
+  
+  memberOfClubId Int?
+  memberOfClub   Club?     @relation("ClubMember", fields: [memberOfClubId], references: [clubId])
+
   tickets        Ticket[]
   vaults         Vault[]
 }
@@ -46,8 +48,8 @@ model Event {
   banner           String?
   brochure         String?
 
-  // Event host
-  host             User?     @relation("EventHost", fields: [hostId], references: [id])
+
+  host             Club?     @relation("EventHost", fields: [hostId], references: [clubId])
 
   // Event participants / tickets
   tickets          Ticket[]
@@ -70,8 +72,9 @@ model Ticket {
   time       String?
   venue      String?
   eventName  String?
-  host       String?
   ticketType String?
+  hostId     Int?
+  host       Club?     @relation("TicketHost", fields: [hostId], references: [clubId])
 
   // Ticket belongs to a user
   user        User?   @relation(fields: [userId], references: [id])
@@ -81,6 +84,7 @@ model Ticket {
 
   @@index([userId])
   @@index([eventId])
+  @@index([hostId])
 }
 
 
@@ -98,4 +102,24 @@ model Vault {
 
   @@index([userId])
   @@index([eventId])
+}
+
+model Club {
+  clubId          Int      @id @default(autoincrement())
+  name            String
+  branch          String?
+  website         String?
+  facebook        String?
+  twitter         String?
+  instagram       String?
+  linkedin        String?
+  facultyInchargeId Int?
+  facultyIncharge   User?     @relation(fields: [facultyInchargeId], references: [id])
+  createdAt       TimestamptzString @default(now())
+  updatedAt       temporal.updatedAtString()
+
+  
+  hostedEvents    Event[]    @relation("EventHost")
+
+  @@index([facultyInchargeId])
 }

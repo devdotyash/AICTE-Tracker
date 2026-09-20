@@ -4,8 +4,24 @@
   "target": "postgres",
   "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
   "roots": {
+    "club": {
+      "model": "Club",
+      "namespace": "public"
+    },
+    "event": {
+      "model": "Event",
+      "namespace": "public"
+    },
+    "ticket": {
+      "model": "Ticket",
+      "namespace": "public"
+    },
     "user": {
       "model": "User",
+      "namespace": "public"
+    },
+    "vault": {
+      "model": "Vault",
       "namespace": "public"
     }
   },
@@ -13,9 +29,489 @@
     "namespaces": {
       "public": {
         "models": {
+          "Club": {
+            "fields": {
+              "branch": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "clubId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "createdAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "facebook": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "facultyInchargeId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "instagram": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "linkedin": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "name": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "twitter": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "updatedAt": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "website": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "facultyIncharge": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "facultyInchargeId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              },
+              "hostedEvents": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "clubId"
+                  ],
+                  "targetFields": [
+                    "hostId"
+                  ]
+                },
+                "to": {
+                  "model": "Event",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "branch": {
+                  "column": "branch"
+                },
+                "clubId": {
+                  "column": "clubId"
+                },
+                "createdAt": {
+                  "column": "createdAt"
+                },
+                "facebook": {
+                  "column": "facebook"
+                },
+                "facultyInchargeId": {
+                  "column": "facultyInchargeId"
+                },
+                "instagram": {
+                  "column": "instagram"
+                },
+                "linkedin": {
+                  "column": "linkedin"
+                },
+                "name": {
+                  "column": "name"
+                },
+                "twitter": {
+                  "column": "twitter"
+                },
+                "updatedAt": {
+                  "column": "updatedAt"
+                },
+                "website": {
+                  "column": "website"
+                }
+              },
+              "namespaceId": "public",
+              "table": "club"
+            }
+          },
+          "Event": {
+            "fields": {
+              "aicteHr": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "banner": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "brochure": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "date": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "eventDescription": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "eventId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "eventName": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "hostId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "time": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "venue": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "host": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "hostId"
+                  ],
+                  "targetFields": [
+                    "clubId"
+                  ]
+                },
+                "to": {
+                  "model": "Club",
+                  "namespace": "public"
+                }
+              },
+              "tickets": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "eventId"
+                  ],
+                  "targetFields": [
+                    "eventId"
+                  ]
+                },
+                "to": {
+                  "model": "Ticket",
+                  "namespace": "public"
+                }
+              },
+              "vaults": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "eventId"
+                  ],
+                  "targetFields": [
+                    "eventId"
+                  ]
+                },
+                "to": {
+                  "model": "Vault",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "aicteHr": {
+                  "column": "aicteHr"
+                },
+                "banner": {
+                  "column": "banner"
+                },
+                "brochure": {
+                  "column": "brochure"
+                },
+                "date": {
+                  "column": "date"
+                },
+                "eventDescription": {
+                  "column": "eventDescription"
+                },
+                "eventId": {
+                  "column": "eventId"
+                },
+                "eventName": {
+                  "column": "eventName"
+                },
+                "hostId": {
+                  "column": "hostId"
+                },
+                "time": {
+                  "column": "time"
+                },
+                "venue": {
+                  "column": "venue"
+                }
+              },
+              "namespaceId": "public",
+              "table": "event"
+            }
+          },
+          "Ticket": {
+            "fields": {
+              "date": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "kind": "scalar"
+                }
+              },
+              "eventId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "eventName": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "hostId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "ticketId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "ticketType": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "time": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "tnpUid": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "userId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "venue": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "event": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "eventId"
+                  ],
+                  "targetFields": [
+                    "eventId"
+                  ]
+                },
+                "to": {
+                  "model": "Event",
+                  "namespace": "public"
+                }
+              },
+              "host": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "hostId"
+                  ],
+                  "targetFields": [
+                    "clubId"
+                  ]
+                },
+                "to": {
+                  "model": "Club",
+                  "namespace": "public"
+                }
+              },
+              "user": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "userId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "date": {
+                  "column": "date"
+                },
+                "eventId": {
+                  "column": "eventId"
+                },
+                "eventName": {
+                  "column": "eventName"
+                },
+                "hostId": {
+                  "column": "hostId"
+                },
+                "ticketId": {
+                  "column": "ticketId"
+                },
+                "ticketType": {
+                  "column": "ticketType"
+                },
+                "time": {
+                  "column": "time"
+                },
+                "tnpUid": {
+                  "column": "tnpUid"
+                },
+                "userId": {
+                  "column": "userId"
+                },
+                "venue": {
+                  "column": "venue"
+                }
+              },
+              "namespaceId": "public",
+              "table": "ticket"
+            }
+          },
           "User": {
             "fields": {
               "accessToken": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "admissionYear": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "branch": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -26,6 +522,13 @@
                 "nullable": false,
                 "type": {
                   "codecId": "pg/timestamptz-string@1",
+                  "kind": "scalar"
+                }
+              },
+              "div": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
                   "kind": "scalar"
                 }
               },
@@ -50,7 +553,28 @@
                   "kind": "scalar"
                 }
               },
+              "firstName": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
               "googleId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "graduationYear": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "gsuiteId": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -71,6 +595,34 @@
                   "kind": "scalar"
                 }
               },
+              "isExternal": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "isHost": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "lastName": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "memberOfClubId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
               "name": {
                 "nullable": true,
                 "type": {
@@ -79,6 +631,20 @@
                 }
               },
               "refreshToken": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "rollNo": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "tndUid": {
                 "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
@@ -100,14 +666,69 @@
                 }
               }
             },
-            "relations": {},
+            "relations": {
+              "memberOfClub": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "memberOfClubId"
+                  ],
+                  "targetFields": [
+                    "clubId"
+                  ]
+                },
+                "to": {
+                  "model": "Club",
+                  "namespace": "public"
+                }
+              },
+              "tickets": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "userId"
+                  ]
+                },
+                "to": {
+                  "model": "Ticket",
+                  "namespace": "public"
+                }
+              },
+              "vaults": {
+                "cardinality": "1:N",
+                "on": {
+                  "localFields": [
+                    "id"
+                  ],
+                  "targetFields": [
+                    "userId"
+                  ]
+                },
+                "to": {
+                  "model": "Vault",
+                  "namespace": "public"
+                }
+              }
+            },
             "storage": {
               "fields": {
                 "accessToken": {
                   "column": "accessToken"
                 },
+                "admissionYear": {
+                  "column": "admissionYear"
+                },
+                "branch": {
+                  "column": "branch"
+                },
                 "createdAt": {
                   "column": "createdAt"
+                },
+                "div": {
+                  "column": "div"
                 },
                 "email": {
                   "column": "email"
@@ -118,8 +739,17 @@
                 "expiresAt": {
                   "column": "expiresAt"
                 },
+                "firstName": {
+                  "column": "firstName"
+                },
                 "googleId": {
                   "column": "googleId"
+                },
+                "graduationYear": {
+                  "column": "graduationYear"
+                },
+                "gsuiteId": {
+                  "column": "gsuiteId"
                 },
                 "id": {
                   "column": "id"
@@ -127,11 +757,29 @@
                 "image": {
                   "column": "image"
                 },
+                "isExternal": {
+                  "column": "isExternal"
+                },
+                "isHost": {
+                  "column": "isHost"
+                },
+                "lastName": {
+                  "column": "lastName"
+                },
+                "memberOfClubId": {
+                  "column": "memberOfClubId"
+                },
                 "name": {
                   "column": "name"
                 },
                 "refreshToken": {
                   "column": "refreshToken"
+                },
+                "rollNo": {
+                  "column": "rollNo"
+                },
+                "tndUid": {
+                  "column": "tndUid"
                 },
                 "updatedAt": {
                   "column": "updatedAt"
@@ -143,6 +791,78 @@
               "namespaceId": "public",
               "table": "user"
             }
+          },
+          "Vault": {
+            "fields": {
+              "eventId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "uniqueId": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              },
+              "userId": {
+                "nullable": true,
+                "type": {
+                  "codecId": "pg/int4@1",
+                  "kind": "scalar"
+                }
+              }
+            },
+            "relations": {
+              "event": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "eventId"
+                  ],
+                  "targetFields": [
+                    "eventId"
+                  ]
+                },
+                "to": {
+                  "model": "Event",
+                  "namespace": "public"
+                }
+              },
+              "user": {
+                "cardinality": "N:1",
+                "on": {
+                  "localFields": [
+                    "userId"
+                  ],
+                  "targetFields": [
+                    "id"
+                  ]
+                },
+                "to": {
+                  "model": "User",
+                  "namespace": "public"
+                }
+              }
+            },
+            "storage": {
+              "fields": {
+                "eventId": {
+                  "column": "eventId"
+                },
+                "uniqueId": {
+                  "column": "uniqueId"
+                },
+                "userId": {
+                  "column": "userId"
+                }
+              },
+              "namespaceId": "public",
+              "table": "vault"
+            }
           }
         }
       }
@@ -153,9 +873,352 @@
       "public": {
         "entries": {
           "table": {
+            "club": {
+              "columns": {
+                "branch": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "clubId": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "createdAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "default": {
+                    "expression": "now()",
+                    "kind": "function"
+                  },
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "facebook": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "facultyInchargeId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "instagram": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "linkedin": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "name": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "twitter": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "updatedAt": {
+                  "codecId": "pg/timestamptz-string@1",
+                  "nativeType": "timestamptz",
+                  "nullable": false
+                },
+                "website": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "facultyInchargeId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "club"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "facultyInchargeId"
+                  ],
+                  "name": "club_facultyInchargeId_idx_6a862bb4",
+                  "prefix": "club_facultyInchargeId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "clubId"
+                ]
+              },
+              "uniques": []
+            },
+            "event": {
+              "columns": {
+                "aicteHr": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "banner": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "brochure": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "date": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "nativeType": "timestamptz",
+                  "nullable": true
+                },
+                "eventDescription": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "eventId": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "eventName": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": false
+                },
+                "hostId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "time": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "venue": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "hostId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "event"
+                  },
+                  "target": {
+                    "columns": [
+                      "clubId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "club"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "hostId"
+                  ],
+                  "name": "event_hostId_idx_05205577",
+                  "prefix": "event_hostId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "eventId"
+                ]
+              },
+              "uniques": []
+            },
+            "ticket": {
+              "columns": {
+                "date": {
+                  "codecId": "pg/timestamptz-temporal@1",
+                  "nativeType": "timestamptz",
+                  "nullable": true
+                },
+                "eventId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "eventName": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "hostId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "ticketId": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "ticketType": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "time": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "tnpUid": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "userId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "venue": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "hostId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "ticket"
+                  },
+                  "target": {
+                    "columns": [
+                      "clubId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "club"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "userId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "ticket"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "eventId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "ticket"
+                  },
+                  "target": {
+                    "columns": [
+                      "eventId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "event"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "eventId"
+                  ],
+                  "name": "ticket_eventId_idx_6a266d47",
+                  "prefix": "ticket_eventId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "hostId"
+                  ],
+                  "name": "ticket_hostId_idx_05205577",
+                  "prefix": "ticket_hostId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "userId"
+                  ],
+                  "name": "ticket_userId_idx_a489d58a",
+                  "prefix": "ticket_userId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "ticketId"
+                ]
+              },
+              "uniques": []
+            },
             "user": {
               "columns": {
                 "accessToken": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "admissionYear": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "branch": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": true
@@ -169,6 +1232,11 @@
                   "nativeType": "timestamptz",
                   "nullable": false
                 },
+                "div": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "email": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
@@ -184,7 +1252,22 @@
                   "nativeType": "timestamptz",
                   "nullable": true
                 },
+                "firstName": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
                 "googleId": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "graduationYear": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
+                "gsuiteId": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": true
@@ -203,12 +1286,50 @@
                   "nativeType": "text",
                   "nullable": true
                 },
+                "isExternal": {
+                  "codecId": "pg/bool@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
+                  "nativeType": "bool",
+                  "nullable": false
+                },
+                "isHost": {
+                  "codecId": "pg/bool@1",
+                  "default": {
+                    "kind": "literal",
+                    "value": false
+                  },
+                  "nativeType": "bool",
+                  "nullable": false
+                },
+                "lastName": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "memberOfClubId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                },
                 "name": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": true
                 },
                 "refreshToken": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "rollNo": {
+                  "codecId": "pg/text@1",
+                  "nativeType": "text",
+                  "nullable": true
+                },
+                "tndUid": {
                   "codecId": "pg/text@1",
                   "nativeType": "text",
                   "nullable": true
@@ -224,8 +1345,34 @@
                   "nullable": true
                 }
               },
-              "foreignKeys": [],
-              "indexes": [],
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "memberOfClubId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  },
+                  "target": {
+                    "columns": [
+                      "clubId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "club"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "memberOfClubId"
+                  ],
+                  "name": "user_memberOfClubId_idx_506e3a3b",
+                  "prefix": "user_memberOfClubId_idx",
+                  "unique": false
+                }
+              ],
               "primaryKey": {
                 "columns": [
                   "id"
@@ -241,8 +1388,99 @@
                   "columns": [
                     "googleId"
                   ]
+                },
+                {
+                  "columns": [
+                    "gsuiteId"
+                  ]
+                },
+                {
+                  "columns": [
+                    "tndUid"
+                  ]
                 }
               ]
+            },
+            "vault": {
+              "columns": {
+                "eventId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "uniqueId": {
+                  "codecId": "pg/int4@1",
+                  "default": {
+                    "expression": "autoincrement()",
+                    "kind": "function"
+                  },
+                  "nativeType": "int4",
+                  "nullable": false
+                },
+                "userId": {
+                  "codecId": "pg/int4@1",
+                  "nativeType": "int4",
+                  "nullable": true
+                }
+              },
+              "foreignKeys": [
+                {
+                  "source": {
+                    "columns": [
+                      "userId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "vault"
+                  },
+                  "target": {
+                    "columns": [
+                      "id"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "user"
+                  }
+                },
+                {
+                  "source": {
+                    "columns": [
+                      "eventId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "vault"
+                  },
+                  "target": {
+                    "columns": [
+                      "eventId"
+                    ],
+                    "namespaceId": "public",
+                    "tableName": "event"
+                  }
+                }
+              ],
+              "indexes": [
+                {
+                  "columns": [
+                    "eventId"
+                  ],
+                  "name": "vault_eventId_idx_6a266d47",
+                  "prefix": "vault_eventId_idx",
+                  "unique": false
+                },
+                {
+                  "columns": [
+                    "userId"
+                  ],
+                  "name": "vault_userId_idx_a489d58a",
+                  "prefix": "vault_userId_idx",
+                  "unique": false
+                }
+              ],
+              "primaryKey": {
+                "columns": [
+                  "uniqueId"
+                ]
+              },
+              "uniques": []
             }
           }
         },
@@ -250,12 +1488,27 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "829c6ebacc832dfa22f64b42b41aea7cbcf904286f48b99d1afaa06ce90d5158"
+    "storageHash": "1e32dc4f2fa2e2da52ed756e72a4a311a5e153e8a5beb8107081ec4f8d26076d"
   },
   "execution": {
-    "executionHash": "a499031370d1fd1891ca11072d3f7e11be752b686057f7c6d0900ee0159f4ed0",
+    "executionHash": "744cd5c1548cbc7758eb46cd6420c271a693ee862379785e9d249719054975b5",
     "mutations": {
       "defaults": [
+        {
+          "onCreate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "onUpdate": {
+            "id": "timestampNow",
+            "kind": "generator"
+          },
+          "ref": {
+            "column": "updatedAt",
+            "namespace": "public",
+            "table": "club"
+          }
+        },
         {
           "onCreate": {
             "id": "timestampNow",

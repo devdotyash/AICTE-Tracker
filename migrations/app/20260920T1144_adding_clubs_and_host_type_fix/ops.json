@@ -1,0 +1,1394 @@
+[
+  {
+    "id": "table.club",
+    "label": "Create table \"club\"",
+    "summary": "Creates table \"club\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "club"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"club\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"club\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"club\"",
+        "sql": "CREATE TABLE \"public\".\"club\" (\n  \"branch\" text,\n  \"clubId\" SERIAL NOT NULL,\n  \"createdAt\" timestamptz DEFAULT (now()) NOT NULL,\n  \"facebook\" text,\n  \"facultyInchargeId\" int4,\n  \"instagram\" text,\n  \"linkedin\" text,\n  \"name\" text NOT NULL,\n  \"twitter\" text,\n  \"updatedAt\" timestamptz NOT NULL,\n  \"website\" text,\n  PRIMARY KEY (\"clubId\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"club\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"club\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.event",
+    "label": "Create table \"event\"",
+    "summary": "Creates table \"event\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "event"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"event\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"event\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"event\"",
+        "sql": "CREATE TABLE \"public\".\"event\" (\n  \"aicteHr\" int4,\n  \"banner\" text,\n  \"brochure\" text,\n  \"date\" timestamptz,\n  \"eventDescription\" text,\n  \"eventId\" SERIAL NOT NULL,\n  \"eventName\" text NOT NULL,\n  \"hostId\" int4,\n  \"time\" text,\n  \"venue\" text,\n  PRIMARY KEY (\"eventId\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"event\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"event\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.ticket",
+    "label": "Create table \"ticket\"",
+    "summary": "Creates table \"ticket\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "ticket"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"ticket\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"ticket\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"ticket\"",
+        "sql": "CREATE TABLE \"public\".\"ticket\" (\n  \"date\" timestamptz,\n  \"eventId\" int4 NOT NULL,\n  \"eventName\" text,\n  \"hostId\" int4,\n  \"ticketId\" SERIAL NOT NULL,\n  \"ticketType\" text,\n  \"time\" text,\n  \"tnpUid\" text,\n  \"userId\" int4,\n  \"venue\" text,\n  PRIMARY KEY (\"ticketId\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"ticket\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"ticket\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "table.vault",
+    "label": "Create table \"vault\"",
+    "summary": "Creates table \"vault\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "vault"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"vault\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"vault\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"vault\"",
+        "sql": "CREATE TABLE \"public\".\"vault\" (\n  \"eventId\" int4 NOT NULL,\n  \"uniqueId\" SERIAL NOT NULL,\n  \"userId\" int4,\n  PRIMARY KEY (\"uniqueId\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"vault\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"vault\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.admissionYear",
+    "label": "Add column \"admissionYear\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "admissionYear",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"admissionYear\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "admissionYear"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"admissionYear\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"admissionYear\" int4"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"admissionYear\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "admissionYear"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.branch",
+    "label": "Add column \"branch\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "branch",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"branch\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "branch"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"branch\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"branch\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"branch\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "branch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.div",
+    "label": "Add column \"div\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "div",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"div\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "div"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"div\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"div\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"div\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "div"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.firstName",
+    "label": "Add column \"firstName\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "firstName",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"firstName\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "firstName"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"firstName\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"firstName\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"firstName\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "firstName"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.graduationYear",
+    "label": "Add column \"graduationYear\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "graduationYear",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"graduationYear\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "graduationYear"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"graduationYear\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"graduationYear\" int4"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"graduationYear\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "graduationYear"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.gsuiteId",
+    "label": "Add column \"gsuiteId\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "gsuiteId",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"gsuiteId\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "gsuiteId"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"gsuiteId\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"gsuiteId\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"gsuiteId\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "gsuiteId"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.isExternal",
+    "label": "Add column \"isExternal\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "isExternal",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"isExternal\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "isExternal"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"isExternal\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"isExternal\" bool DEFAULT false NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"isExternal\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "isExternal"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.isHost",
+    "label": "Add column \"isHost\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "isHost",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"isHost\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "isHost"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"isHost\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"isHost\" bool DEFAULT false NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"isHost\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "isHost"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.lastName",
+    "label": "Add column \"lastName\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "lastName",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"lastName\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "lastName"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"lastName\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"lastName\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"lastName\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "lastName"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.memberOfClubId",
+    "label": "Add column \"memberOfClubId\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "memberOfClubId",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"memberOfClubId\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "memberOfClubId"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"memberOfClubId\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"memberOfClubId\" int4"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"memberOfClubId\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "memberOfClubId"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.rollNo",
+    "label": "Add column \"rollNo\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "rollNo",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"rollNo\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "rollNo"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"rollNo\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"rollNo\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"rollNo\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "rollNo"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "column.public.user.tndUid",
+    "label": "Add column \"tndUid\" to \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "tndUid",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"tndUid\" is missing",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "tndUid"
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add column \"tndUid\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD COLUMN \"tndUid\" text"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"tndUid\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "user",
+          "tndUid"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.user.user_gsuiteId_key",
+    "label": "Add unique constraint on \"user\" (gsuiteId)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "user_gsuiteId_key",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"user_gsuiteId_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_gsuiteId_key",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"user_gsuiteId_key\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD CONSTRAINT \"user_gsuiteId_key\" UNIQUE (\"gsuiteId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"user_gsuiteId_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_gsuiteId_key",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "unique.user.user_tndUid_key",
+    "label": "Add unique constraint on \"user\" (tndUid)",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "user_tndUid_key",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"user_tndUid_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_tndUid_key",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add unique constraint \"user_tndUid_key\"",
+        "sql": "ALTER TABLE \"public\".\"user\" ADD CONSTRAINT \"user_tndUid_key\" UNIQUE (\"tndUid\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"user_tndUid_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_tndUid_key",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.club.club_facultyInchargeId_idx_6a862bb4",
+    "label": "Create index \"club_facultyInchargeId_idx_6a862bb4\" on \"club\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "club_facultyInchargeId_idx_6a862bb4",
+        "table": "club"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"club_facultyInchargeId_idx_6a862bb4\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"club_facultyInchargeId_idx_6a862bb4\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"club_facultyInchargeId_idx_6a862bb4\"",
+        "sql": "CREATE INDEX \"club_facultyInchargeId_idx_6a862bb4\" ON \"public\".\"club\" (\"facultyInchargeId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"club_facultyInchargeId_idx_6a862bb4\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"club_facultyInchargeId_idx_6a862bb4\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.event.event_hostId_idx_05205577",
+    "label": "Create index \"event_hostId_idx_05205577\" on \"event\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "event_hostId_idx_05205577",
+        "table": "event"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"event_hostId_idx_05205577\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"event_hostId_idx_05205577\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"event_hostId_idx_05205577\"",
+        "sql": "CREATE INDEX \"event_hostId_idx_05205577\" ON \"public\".\"event\" (\"hostId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"event_hostId_idx_05205577\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"event_hostId_idx_05205577\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.ticket.ticket_eventId_idx_6a266d47",
+    "label": "Create index \"ticket_eventId_idx_6a266d47\" on \"ticket\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "ticket_eventId_idx_6a266d47",
+        "table": "ticket"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"ticket_eventId_idx_6a266d47\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"ticket_eventId_idx_6a266d47\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"ticket_eventId_idx_6a266d47\"",
+        "sql": "CREATE INDEX \"ticket_eventId_idx_6a266d47\" ON \"public\".\"ticket\" (\"eventId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"ticket_eventId_idx_6a266d47\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"ticket_eventId_idx_6a266d47\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.ticket.ticket_hostId_idx_05205577",
+    "label": "Create index \"ticket_hostId_idx_05205577\" on \"ticket\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "ticket_hostId_idx_05205577",
+        "table": "ticket"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"ticket_hostId_idx_05205577\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"ticket_hostId_idx_05205577\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"ticket_hostId_idx_05205577\"",
+        "sql": "CREATE INDEX \"ticket_hostId_idx_05205577\" ON \"public\".\"ticket\" (\"hostId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"ticket_hostId_idx_05205577\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"ticket_hostId_idx_05205577\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.ticket.ticket_userId_idx_a489d58a",
+    "label": "Create index \"ticket_userId_idx_a489d58a\" on \"ticket\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "ticket_userId_idx_a489d58a",
+        "table": "ticket"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"ticket_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"ticket_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"ticket_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"ticket_userId_idx_a489d58a\" ON \"public\".\"ticket\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"ticket_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"ticket_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.user.user_memberOfClubId_idx_506e3a3b",
+    "label": "Create index \"user_memberOfClubId_idx_506e3a3b\" on \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "user_memberOfClubId_idx_506e3a3b",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"user_memberOfClubId_idx_506e3a3b\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user_memberOfClubId_idx_506e3a3b\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"user_memberOfClubId_idx_506e3a3b\"",
+        "sql": "CREATE INDEX \"user_memberOfClubId_idx_506e3a3b\" ON \"public\".\"user\" (\"memberOfClubId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"user_memberOfClubId_idx_506e3a3b\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user_memberOfClubId_idx_506e3a3b\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.vault.vault_eventId_idx_6a266d47",
+    "label": "Create index \"vault_eventId_idx_6a266d47\" on \"vault\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "vault_eventId_idx_6a266d47",
+        "table": "vault"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"vault_eventId_idx_6a266d47\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"vault_eventId_idx_6a266d47\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"vault_eventId_idx_6a266d47\"",
+        "sql": "CREATE INDEX \"vault_eventId_idx_6a266d47\" ON \"public\".\"vault\" (\"eventId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"vault_eventId_idx_6a266d47\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"vault_eventId_idx_6a266d47\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.vault.vault_userId_idx_a489d58a",
+    "label": "Create index \"vault_userId_idx_a489d58a\" on \"vault\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "vault_userId_idx_a489d58a",
+        "table": "vault"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"vault_userId_idx_a489d58a\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"vault_userId_idx_a489d58a\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"vault_userId_idx_a489d58a\"",
+        "sql": "CREATE INDEX \"vault_userId_idx_a489d58a\" ON \"public\".\"vault\" (\"userId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"vault_userId_idx_a489d58a\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"vault_userId_idx_a489d58a\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.club.club_facultyInchargeId_fkey",
+    "label": "Add foreign key \"club_facultyInchargeId_fkey\" on \"club\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "club_facultyInchargeId_fkey",
+        "table": "club"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"club_facultyInchargeId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "club_facultyInchargeId_fkey",
+          "public",
+          "\"public\".\"club\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"club_facultyInchargeId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"club\"\nADD CONSTRAINT \"club_facultyInchargeId_fkey\"\nFOREIGN KEY (\"facultyInchargeId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"club_facultyInchargeId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "club_facultyInchargeId_fkey",
+          "public",
+          "\"public\".\"club\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.event.event_hostId_fkey",
+    "label": "Add foreign key \"event_hostId_fkey\" on \"event\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "event_hostId_fkey",
+        "table": "event"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"event_hostId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "event_hostId_fkey",
+          "public",
+          "\"public\".\"event\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"event_hostId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"event\"\nADD CONSTRAINT \"event_hostId_fkey\"\nFOREIGN KEY (\"hostId\")\nREFERENCES \"public\".\"club\" (\"clubId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"event_hostId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "event_hostId_fkey",
+          "public",
+          "\"public\".\"event\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.ticket.ticket_hostId_fkey",
+    "label": "Add foreign key \"ticket_hostId_fkey\" on \"ticket\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "ticket_hostId_fkey",
+        "table": "ticket"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"ticket_hostId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "ticket_hostId_fkey",
+          "public",
+          "\"public\".\"ticket\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"ticket_hostId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"ticket\"\nADD CONSTRAINT \"ticket_hostId_fkey\"\nFOREIGN KEY (\"hostId\")\nREFERENCES \"public\".\"club\" (\"clubId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"ticket_hostId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "ticket_hostId_fkey",
+          "public",
+          "\"public\".\"ticket\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.ticket.ticket_userId_fkey",
+    "label": "Add foreign key \"ticket_userId_fkey\" on \"ticket\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "ticket_userId_fkey",
+        "table": "ticket"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"ticket_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "ticket_userId_fkey",
+          "public",
+          "\"public\".\"ticket\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"ticket_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"ticket\"\nADD CONSTRAINT \"ticket_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"ticket_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "ticket_userId_fkey",
+          "public",
+          "\"public\".\"ticket\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.ticket.ticket_eventId_fkey",
+    "label": "Add foreign key \"ticket_eventId_fkey\" on \"ticket\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "ticket_eventId_fkey",
+        "table": "ticket"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"ticket_eventId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "ticket_eventId_fkey",
+          "public",
+          "\"public\".\"ticket\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"ticket_eventId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"ticket\"\nADD CONSTRAINT \"ticket_eventId_fkey\"\nFOREIGN KEY (\"eventId\")\nREFERENCES \"public\".\"event\" (\"eventId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"ticket_eventId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "ticket_eventId_fkey",
+          "public",
+          "\"public\".\"ticket\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.user.user_memberOfClubId_fkey",
+    "label": "Add foreign key \"user_memberOfClubId_fkey\" on \"user\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "user_memberOfClubId_fkey",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"user_memberOfClubId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_memberOfClubId_fkey",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"user_memberOfClubId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"user\"\nADD CONSTRAINT \"user_memberOfClubId_fkey\"\nFOREIGN KEY (\"memberOfClubId\")\nREFERENCES \"public\".\"club\" (\"clubId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"user_memberOfClubId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_memberOfClubId_fkey",
+          "public",
+          "\"public\".\"user\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.vault.vault_userId_fkey",
+    "label": "Add foreign key \"vault_userId_fkey\" on \"vault\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "vault_userId_fkey",
+        "table": "vault"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"vault_userId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "vault_userId_fkey",
+          "public",
+          "\"public\".\"vault\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"vault_userId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"vault\"\nADD CONSTRAINT \"vault_userId_fkey\"\nFOREIGN KEY (\"userId\")\nREFERENCES \"public\".\"user\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"vault_userId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "vault_userId_fkey",
+          "public",
+          "\"public\".\"vault\""
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.vault.vault_eventId_fkey",
+    "label": "Add foreign key \"vault_eventId_fkey\" on \"vault\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "vault_eventId_fkey",
+        "table": "vault"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"vault_eventId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "vault_eventId_fkey",
+          "public",
+          "\"public\".\"vault\""
+        ]
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"vault_eventId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"vault\"\nADD CONSTRAINT \"vault_eventId_fkey\"\nFOREIGN KEY (\"eventId\")\nREFERENCES \"public\".\"event\" (\"eventId\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"vault_eventId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "vault_eventId_fkey",
+          "public",
+          "\"public\".\"vault\""
+        ]
+      }
+    ]
+  }
+]
